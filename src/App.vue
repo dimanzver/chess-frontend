@@ -1,19 +1,21 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <span>Chess</span>
+    <template v-if="!loading">
+      <v-app-bar
+          app
+          color="primary"
+          dark
+      >
+        <span>Chess</span>
 
-      <v-spacer></v-spacer>
-      <v-btn depressed>Войти</v-btn>
-    </v-app-bar>
+        <v-spacer></v-spacer>
+        <v-btn depressed @click="openLoginModal">Войти</v-btn>
+      </v-app-bar>
 
-    <v-main>
-      <Main/>
-    </v-main>
+      <v-main>
+        <Main/>
+      </v-main>
+    </template>
   </v-app>
 </template>
 
@@ -28,7 +30,13 @@ export default {
   },
 
   data: () => ({
-    //
+    loading: true,
   }),
+
+  created() {
+    this.$store.dispatch('auth/loadUser').finally(() => {
+      this.loading = false;
+    });
+  },
 };
 </script>
